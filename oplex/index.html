@@ -136,6 +136,42 @@
                 flex: 1 1 calc(12.5% - 30px); /* 8 tiles per row (TV) */
             }
         }
+
+          /* Telegram Button Container */
+    .telegram-container {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    /* Telegram Button Styling */
+    .tg-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 25px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background-color: #0088cc; /* Telegram blue */
+        border: none;
+        border-radius: 50px; /* 50% rounded corners */
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0, 136, 204, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .tg-button:hover {
+        background-color: #0077b5; /* Slightly darker blue on hover */
+        box-shadow: 0 6px 12px rgba(0, 136, 204, 0.6);
+        transform: translateY(-2px); /* Lift button slightly on hover */
+    }
+
+    /* Telegram Logo in Button */
+    .tg-button img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
     </style>
 </head>
 <body>
@@ -148,6 +184,13 @@
     <div class="search-bar-container">
         <input type="text" class="search-bar" id="searchBar" placeholder="Search channels..." oninput="searchChannels()">
         <button class="search-btn" onclick="searchChannels()">Search</button>
+    </div>
+
+    <div class="telegram-container">
+    <a class="tg-button" href="https://t.me/axtream_bingewav" target="_blank">
+        <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo">
+        Join Telegram
+    </a>
     </div>
 
     <div class="channel-tiles" id="channelTiles">
@@ -217,5 +260,6 @@
 
     </script>
 
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
 </body>
 </html>
