@@ -30,3 +30,17 @@
       // Show the no-ID message
       document.getElementById("no-id-message").style.display = "flex";
     }
+
+
+ // Close popup function
+ function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none';
+  }
+      // Show the alert
+      if (confirm("Join Our Telegram Channel @Axtream_Bingewav for updates and more")) {
+          // Redirect to the Telegram channel if 'OK' is clicked
+          window.location.href = "https://t.me/axtream_bingewav";
+      } else {
+          // Close the alert if 'Cancel' is clicked (do nothing)
+      }
