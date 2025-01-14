@@ -80,8 +80,8 @@
         console.error("Error checking embed permissions:", error);
         document.body.innerHTML = `<div style="text-align:center; margin-top:20%; color:#ff3333; font-family:Arial, sans-serif;">
         <h1>Access Denied</h1>
-        <p>This page cannot be embedded on your site.</p>
-        <p>For more information and to allow embeding on this domain, please contact the administrator <a href="https://t.me/axtream_bingewav" target="_blank" style="text-decoration: none; color: #ff00bb">@Axtream_Bingewav</a>.</p>
+        <p><h2>This page cannot be embedded on your site.</h2></p>
+        <p><h2>For more information and to allow embeding on this domain, please contact the administrator <a href="https://t.me/axtream_bingewav" target="_blank" style="text-decoration: none; color: #ff00bb">@Axtream_Bingewav</a>.</h2></p>
     </div>`;
     }
 })();
