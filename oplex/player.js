@@ -20,7 +20,7 @@
         autostart: true,
         logo: {
           file: "https://i.ibb.co/JkfNTs8/output-onlinepngtools.png",
-          position: "bottom-left",
+          position: "bottom-right",
         },
         skin: {
           url: "https://cxh.pages.dev/style.css",
