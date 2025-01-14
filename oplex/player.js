@@ -78,6 +78,6 @@
         }
     } catch (error) {
         console.error("Error checking embed permissions:", error);
-        document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Embedding not allowed!</h1>`;
+        document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Ab to copy mat kr chutiye<br><a href="https://t.me/axtream_bingewav" style="text-decoration: none;">Join us @Actream_Bingewav</a></h1>`;
     }
 })();
