@@ -57,27 +57,27 @@
         "sportifylive.netlify.app"
     ];
 
-    function isAllowedToEmbed() {
-        try {
-            // Check if the page is embedded in an iframe
-            if (window.top !== window.self) {
-                // Get the referrer of the embedding page
-                const referrer = document.referrer;
-                if (referrer) {
-                    const referrerDomain = new URL(referrer).hostname;
-                    return allowedDomains.includes(referrerDomain);
-                }
-                return false; // No referrer, block the embed
-            }
-            return true; // Not in an iframe
-        } catch (error) {
-            console.error("Error checking embed permissions:", error);
-            return false;
-        }
-    }
+    try {
+        // Check if the page is embedded in an iframe
+        if (window.top !== window.self) {
+            // Extract the referrer domain
+            const referrer = document.referrer;
+            if (referrer) {
+                const referrerDomain = new URL(referrer).hostname;
 
-    if (!isAllowedToEmbed()) {
+                // Allow embedding only if the domain is in the allowed list
+                if (!allowedDomains.includes(referrerDomain)) {
+                    document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Embedding not allowed!</h1>`;
+                    throw new Error("Embedding not allowed on this domain.");
+                }
+            } else {
+                // No referrer, block embedding
+                document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Embedding not allowed!</h1>`;
+                throw new Error("Embedding not allowed! No referrer detected.");
+            }
+        }
+    } catch (error) {
+        console.error("Error checking embed permissions:", error);
         document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Embedding not allowed!</h1>`;
-        throw new Error("Embedding not allowed on this domain.");
     }
 })();
