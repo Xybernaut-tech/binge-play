@@ -44,3 +44,40 @@
       } else {
           // Close the alert if 'Cancel' is clicked (do nothing)
       }
+
+
+(function() {
+    const allowedDomains = [
+        "bingewav-sports.netlify.app",
+        "cricketsamay365.netlify.app",
+        "editverseog.netlify.app",
+        "cricket-nation.live",
+        "cricketgroup.netlify.app",
+        "crxcshivam.live",
+        "sportifylive.netlify.app"
+    ];
+
+    function isAllowedToEmbed() {
+        try {
+            // Check if the page is embedded in an iframe
+            if (window.top !== window.self) {
+                // Get the referrer of the embedding page
+                const referrer = document.referrer;
+                if (referrer) {
+                    const referrerDomain = new URL(referrer).hostname;
+                    return allowedDomains.includes(referrerDomain);
+                }
+                return false; // No referrer, block the embed
+            }
+            return true; // Not in an iframe
+        } catch (error) {
+            console.error("Error checking embed permissions:", error);
+            return false;
+        }
+    }
+
+    if (!isAllowedToEmbed()) {
+        document.body.innerHTML = `<h1 style="text-align:center; margin-top:20%; color:red;">Embedding not allowed!</h1>`;
+        throw new Error("Embedding not allowed on this domain.");
+    }
+})();
