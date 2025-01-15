@@ -1,0 +1,9 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="" tvg-name="Disney India" group-title="Kids" tvg-logo="https://i.ibb.co/FBrdvB8/images.jpg",Disney India
+https://binge-play.vercel.app/Files/Disney-India.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Hungama Multi-audio" group-title="Kids" tvg-logo="https://i.ibb.co/54cCmr1/2d30ad150601165-Y3-Jvc-Cw4-OTcs-Nz-Ay-LDQ4-Niwx-ODg.jpg",Hungama Multi-audio
+https://binge-play.vercel.app/Files/hungama-kids.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Hungama India" group-title="Kids" tvg-logo="https://i.ibb.co/NF8Tn9m/images.jpg",Hungama India
+https://binge-play.vercel.app/Files/hungama.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Sony Yay" group-title="Kids" tvg-logo="https://i.ibb.co/FHQVny5/Sony-Yay-new.png",Sony Yay
+https://binge-play.vercel.app/Files/sony-yay.m3u8
