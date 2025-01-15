@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3U Playlist Viewer</title>
+  <style>
+    /* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  word-wrap: break-word; /* Prevents long words from overflowing */
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* Prevents overflow of content */
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input[type="text"], button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#shareableLinkContainer {
+  margin-top: 20px;
+  text-align: center;
+  display: none;
+}
+
+#shareableLink {
+  color: #007bff;
+  word-break: break-word; /* Ensures long URLs don't overflow */
+  cursor: pointer;
+}
+
+#playlistContent {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.category-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: #007bff;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td {
+  background-color: #fafafa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  input[type="text"], button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .category-title {
+    font-size: 1rem;
+  }
+
+  table th, table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 95%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  input[type="text"], button {
+    font-size: 0.9rem;
+  }
+
+  table th, table td {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+
+  .category-title {
+    font-size: 0.9rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>M3U Playlist Viewer</h1>
+    <input type="text" id="m3uUrl" placeholder="Enter M3U URL" />
+    <button onclick="storeM3U()">Load Playlist</button>
+
+    <div id="shareableLinkContainer" style="display: none;">
+      <p>Shareable link: <span id="shareableLink"></span></p>
+      <button onclick="copyToClipboard()">Copy Link</button>
+    </div>
+
+    <div id="playlistContent"></div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Check if there's an encoded M3U URL in the query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedM3uUrl = urlParams.get('data');
+    
+    if (encodedM3uUrl) {
+      // Decode the URL and load the playlist data
+      const m3uUrl = decodeBase64(encodedM3uUrl);
+      loadM3UFromURL(m3uUrl);
+    }
+
+    // Event listener for manual input to generate a shareable URL
+    document.querySelector('button').addEventListener('click', function () {
+      const m3uUrlInput = document.getElementById('m3uUrl').value;
+      if (m3uUrlInput) {
+        storeM3U(m3uUrlInput);
+      }
+    });
+  });
+
+  function storeM3U(m3uUrl) {
+    // Encode the URL in Base64
+    const encodedUrl = encodeBase64(m3uUrl);
+
+    // Generate the link with the encoded URL as a query parameter
+    const shareableLink = `${window.location.origin}${window.location.pathname}?data=${encodedUrl}`;
+
+    // Display the shareable link to the user
+    document.getElementById('shareableLink').textContent = shareableLink;
+    document.getElementById('shareableLinkContainer').style.display = 'block';
+
+    // Now load the playlist data after storing the link
+    loadM3UFromURL(m3uUrl);
+  }
+
+  function encodeBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  function decodeBase64(str) {
+    return decodeURIComponent(escape(atob(str)));
+  }
+
+  function loadM3UFromURL(m3uUrl) {
+    fetch(m3uUrl)
+      .then(response => response.text())
+      .then(data => parseM3U(data))
+      .catch(error => alert('Error loading M3U playlist: ' + error));
+  }
+
+  function parseM3U(data) {
+    const lines = data.split('\n');
+    let categories = {};
+    let channelUrls = {}; // Store channel URLs for each channel name
+
+    lines.forEach(line => {
+      if (line.startsWith('#EXTINF:')) {
+        const channelName = line.split(',')[1].trim();
+        const category = getCategoryFromTags(line);
+        const m3u8Url = lines[lines.indexOf(line) + 1].trim(); // Get the URL from the next line
+
+        if (!categories[category]) {
+          categories[category] = [];
+        }
+        categories[category].push({ name: channelName, url: m3u8Url });
+      }
+    });
+
+    displayCategories(categories);
+  }
+
+  function getCategoryFromTags(line) {
+    const match = line.match(/group-title="([^"]+)"/);
+    return match ? match[1] : 'Uncategorized';
+  }
+
+  function displayCategories(categories) {
+    const playlistContent = document.getElementById('playlistContent');
+    playlistContent.innerHTML = ''; // Clear previous content
+
+    for (const category in categories) {
+      const categoryTable = createCategoryTable(category, categories[category]);
+      playlistContent.appendChild(categoryTable);
+    }
+  }
+
+  function createCategoryTable(category, channels) {
+    const table = document.createElement('table');
+    const categoryTitle = document.createElement('div');
+    categoryTitle.classList.add('category-title');
+    categoryTitle.textContent = category;
+    
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Channel Name</th>
+          <th>Copy M3U8 URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${channels.map(channel => `
+          <tr>
+            <td>${channel.name}</td>
+            <td><button onclick="copyM3U8Url('${channel.url}')">Copy URL</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+
+    const container = document.createElement('div');
+    container.appendChild(categoryTitle);
+    container.appendChild(table);
+    return container;
+  }
+
+  function copyM3U8Url(url) {
+    navigator.clipboard.writeText(url)
+      .then(function () {
+        alert('M3U8 URL copied to clipboard!');
+      })
+      .catch(function (err) {
+        alert('Failed to copy URL: ', err);
+      });
+  }
+
+  function copyToClipboard() {
+    const shareableLinkText = document.getElementById('shareableLink').textContent;
+    navigator.clipboard.writeText(shareableLinkText)
+      .then(function () {
+        alert('Link copied to clipboard!');
+      })
+      .catch(function (err) {
+        alert('Failed to copy: ', err);
+      });
+  }
+</script>
+
+
+</body>
+</html>
