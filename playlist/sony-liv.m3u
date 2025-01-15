@@ -1,0 +1,3 @@
+#EXTM3U
+#EXTINF:-1 group-title="Primary Playlist",SonyLIV Playlist
+https://raw.githubusercontent.com/drmlive/sliv-live-events/main/sonyliv.m3u
