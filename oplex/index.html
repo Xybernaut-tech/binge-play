@@ -137,41 +137,58 @@
             }
         }
 
-          /* Telegram Button Container */
-    .telegram-container {
-        text-align: center;
-        margin: 30px 0;
-    }
+        /* Telegram Button Container */
+        .telegram-container {
+            text-align: center;
+            margin: 30px 0;
+        }
 
-    /* Telegram Button Styling */
-    .tg-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 12px 25px;
-        font-size: 18px;
-        font-weight: bold;
-        color: white;
-        background-color: #0088cc; /* Telegram blue */
-        border: none;
-        border-radius: 50px; /* 50% rounded corners */
-        text-decoration: none;
-        box-shadow: 0 4px 6px rgba(0, 136, 204, 0.4);
-        transition: all 0.3s ease;
-    }
+        /* Telegram Button Styling */
+        .tg-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #0088cc; /* Telegram blue */
+            border: none;
+            border-radius: 50px; /* 50% rounded corners */
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 136, 204, 0.4);
+            transition: all 0.3s ease;
+        }
 
-    .tg-button:hover {
-        background-color: #0077b5; /* Slightly darker blue on hover */
-        box-shadow: 0 6px 12px rgba(0, 136, 204, 0.6);
-        transform: translateY(-2px); /* Lift button slightly on hover */
-    }
+        .tg-button:hover {
+            background-color: #0077b5; /* Slightly darker blue on hover */
+            box-shadow: 0 6px 12px rgba(0, 136, 204, 0.6);
+            transform: translateY(-2px); /* Lift button slightly on hover */
+        }
 
-    /* Telegram Logo in Button */
-    .tg-button img {
-        width: 24px;
-        height: 24px;
-        margin-right: 10px;
-    }
+        /* Telegram Logo in Button */
+        .tg-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        /* Dropdown Container */
+        .dropdown-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .dropdown {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #444;
+            background-color: #333;
+            color: #fff;
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
@@ -187,10 +204,18 @@
     </div>
 
     <div class="telegram-container">
-    <a class="tg-button" href="https://t.me/axtream_bingewav" target="_blank">
-        <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo">
-        Join Telegram
-    </a>
+        <a class="tg-button" href="https://t.me/axtream_bingewav" target="_blank">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo">
+            Join Telegram
+        </a>
+    </div>
+
+    <!-- Dropdown for Category Selection -->
+    <div class="dropdown-container">
+        <select id="categoryDropdown" class="dropdown" onchange="filterByCategory()">
+            <option value="All">All</option>
+            <!-- Categories will be dynamically added here -->
+        </select>
     </div>
 
     <div class="channel-tiles" id="channelTiles">
@@ -198,42 +223,50 @@
     </div>
 
     <script>
-                // Fetch the sports list from the M3U file and dynamically create channel tiles
         let channels = [];
+        let categories = new Set(); // To store unique categories
 
+        // Fetch the sports list from the M3U file and dynamically create channel tiles
         fetch('https://raw.githubusercontent.com/xybernaut-tech/binge-play/main/playlist/oplex.m3u')
             .then(response => response.text())
             .then(data => {
                 const lines = data.split('\n');
                 const channelTilesContainer = document.getElementById('channelTiles');
-                
+                const categoryDropdown = document.getElementById('categoryDropdown');
+
                 for (let i = 0; i < lines.length; i++) {
                     if (lines[i].startsWith('#EXTINF')) {
+                        const info = lines[i].split(' ');
                         const name = lines[i].split(',')[1].trim();
                         const url = lines[i + 1].trim();
                         const id = new URL(url).searchParams.get('id');
-                        
+                        const categoryMatch = lines[i].match(/group-title="(.*?)"/);
+                        const category = categoryMatch ? categoryMatch[1] : 'Unknown';
+
+                        categories.add(category); // Add to category list
+
                         // Create a new tile
                         const tile = document.createElement('div');
                         tile.classList.add('tile');
                         tile.dataset.name = name;
+                        tile.dataset.category = category; // Store category in dataset
                         tile.onclick = () => window.location.href = `https://binge-play.vercel.app/oplex/player.html?id=${id}`;
-                        
+
                         // Create image container and image
                         const imageContainer = document.createElement('div');
                         imageContainer.classList.add('image-container');
                         const img = document.createElement('img');
                         img.src = "https://binge-play.vercel.app/binge-play.svg";
                         img.alt = name;
-                        
+
                         // Create title for channel
                         const title = document.createElement('h3');
                         title.innerText = name;
-                        
+
                         imageContainer.appendChild(img);
                         tile.appendChild(imageContainer);
                         tile.appendChild(title);
-                        
+
                         // Append the tile to the container
                         channelTilesContainer.appendChild(tile);
 
@@ -241,16 +274,29 @@
                         channels.push(tile);
                     }
                 }
+
+                // Populate dropdown with categories
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.innerText = category;
+                    categoryDropdown.appendChild(option);
+                });
             })
             .catch(error => console.error('Error fetching sports list:', error));
 
-        // Function to filter and show channels based on the search input
+        // Function to filter and show channels based on the search input and selected category
         function searchChannels() {
             const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryDropdown').value;
 
             channels.forEach(tile => {
                 const name = tile.dataset.name.toLowerCase();
-                if (name.includes(searchQuery)) {
+                const category = tile.dataset.category;
+                const matchesSearch = name.includes(searchQuery);
+                const matchesCategory = selectedCategory === 'All' || category === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
                     tile.style.display = 'block';  // Show matching tile
                 } else {
                     tile.style.display = 'none';   // Hide non-matching tile
@@ -258,8 +304,13 @@
             });
         }
 
+        // Function to filter channels based on selected category
+        function filterByCategory() {
+            searchChannels(); // Reuse search functionality with category filtering
+        }
+
     </script>
 
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
 </body>
 </html>
