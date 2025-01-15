@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online M3U Playlist Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      word-wrap: break-word;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input[type="text"], button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #shareableLinkContainer {
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    #shareableLink {
+      color: #007bff;
+      word-break: break-word;
+      cursor: pointer;
+    }
+
+    .CodeMirror {
+      border: 1px solid #ccc;
+      height: 400px;
+      width: 100%;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      width: 100%;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Online M3U Playlist Editor</h1>
+    <input type="text" id="m3uUrl" placeholder="Enter M3U URL" />
+    <button onclick="loadM3U()">Load Playlist</button>
+
+    <textarea id="playlistEditor" placeholder="Edit the playlist here..."></textarea>
+
+    <div id="shareableLinkContainer" style="display: none;">
+      <p>Shareable link: <span id="shareableLink"></span></p>
+      <button onclick="copyToClipboard()">Copy Link</button>
+    </div>
+
+    <div class="action-buttons">
+      <button onclick="copyAllToClipboard()">Copy All</button>
+      <button onclick="exportAsM3U()">Export as M3U</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
+  <script>
+    let editor;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initialize CodeMirror editor with syntax highlighting
+      editor = CodeMirror.fromTextArea(document.getElementById('playlistEditor'), {
+        mode: 'text/x-m3u',
+        theme: 'dracula',
+        lineNumbers: true,
+        matchBrackets: true,
+        tabSize: 2,
+        indentWithTabs: true
+      });
+
+      // Check if there's an encoded M3U URL in the query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const encodedM3uUrl = urlParams.get('data');
+      
+      if (encodedM3uUrl) {
+        // Decode the URL and load the playlist data
+        const m3uUrl = decodeBase64(encodedM3uUrl);
+        loadM3UFromURL(m3uUrl);
+      }
+    });
+
+    function loadM3U() {
+      const m3uUrlInput = document.getElementById('m3uUrl').value;
+      if (m3uUrlInput) {
+        loadM3UFromURL(m3uUrlInput);
+      }
+    }
+
+    function loadM3UFromURL(m3uUrl) {
+      fetch(m3uUrl)
+        .then(response => response.text())
+        .then(data => {
+          editor.setValue(data);
+          storeM3U(m3uUrl);
+        })
+        .catch(error => alert('Error loading M3U playlist: ' + error));
+    }
+
+    function storeM3U(m3uUrl) {
+      // Encode the URL in Base64
+      const encodedUrl = encodeBase64(m3uUrl);
+
+      // Generate the link with the encoded URL as a query parameter
+      const shareableLink = `${window.location.origin}${window.location.pathname}?data=${encodedUrl}`;
+
+      // Display the shareable link to the user
+      document.getElementById('shareableLink').textContent = shareableLink;
+      document.getElementById('shareableLinkContainer').style.display = 'block';
+    }
+
+    function encodeBase64(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function decodeBase64(str) {
+      return decodeURIComponent(escape(atob(str)));
+    }
+
+    function copyToClipboard() {
+      const shareableLinkText = document.getElementById('shareableLink').textContent;
+      navigator.clipboard.writeText(shareableLinkText)
+        .then(function () {
+          alert('Link copied to clipboard!');
+        })
+        .catch(function (err) {
+          alert('Failed to copy: ', err);
+        });
+    }
+
+    function copyAllToClipboard() {
+      const editorContent = editor.getValue();
+      navigator.clipboard.writeText(editorContent)
+        .then(function () {
+          alert('All content copied to clipboard!');
+        })
+        .catch(function (err) {
+          alert('Failed to copy content: ', err);
+        });
+    }
+
+    function exportAsM3U() {
+      const editorContent = editor.getValue();
+      const blob = new Blob([editorContent], { type: 'text/m3u' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'binge-play.m3u';
+      link.click();
+    }
+  </script>
+</body>
+</html>
