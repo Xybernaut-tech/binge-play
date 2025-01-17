@@ -227,7 +227,7 @@
         let categories = new Set(); // To store unique categories
 
         // Fetch the sports list from the M3U file and dynamically create channel tiles
-        fetch('https://raw.githubusercontent.com/xybernaut-tech/binge-play/main/playlist/oplex.m3u')
+        fetch('https://opplex-tv-and-stream4k.vercel.app/M3UPlus-Playlist-20241019222427.m3u')
             .then(response => response.text())
             .then(data => {
                 const lines = data.split('\n');
