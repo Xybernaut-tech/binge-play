@@ -9,7 +9,7 @@
 
     // Check if 'id' exists in the URL
     if (id) {
-      const m3u8Url = `https://m3u8-proxy-with-cors.vercel.app/m3u8-proxy?url=https://unknownplaylists.vercel.app/opplex/play.m3u8?id=${id}&headers=%7B%22referer%22%3A%22%22%7D`;
+      const m3u8Url = `https://unknown-playlists-opplex-tv.vercel.app/live-oplx.m3u8?id=${id}`;
 
       // JW Player configuration
       jwplayer("player-container").setup({
