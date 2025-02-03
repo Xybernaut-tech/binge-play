@@ -1,5 +1,5 @@
 #EXTM3U
-EXTINF:-1 tvg-id="001" group-title="Join @Axtream_Bingewav" group-logo="https://binge-play.vercel.app/binge-play.svg" tvg-logo="https://i.ibb.co/mF2bPw4m/IMG-20250202-082107-751.jpg",t.me/axtream_bingewav
+#EXTINF:-1 tvg-id="001" group-title="t.me/axtream_bingewav" tvg-language="Hindi" tvg-logo="https://i.ibb.co/0y6FhPfj/IMG-20250202-082107-751.jpg",Binge Play
 https://video.gumlet.io/6787f1fa5bdf3d7d16d363ca/6787f240a0795ccd0da141b0/main.m3u8
 #EXTINF:-1 tvg-id="144" group-title="Entertainment" tvg-language="Hindi" tvg-logo="https://v3img.voot.com/resizeMedium,w_1090,h_613/v3Storage/assets/colors-hindi--16x9-1714557869344.jpg",Colors HD
 https://live.drmlive-02.workers.dev/jc/144.m3u8
