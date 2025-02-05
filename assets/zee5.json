@@ -27,5 +27,50 @@
             "logo": "https://tvtick.com/img/channel/692.png",
             "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-9z5543514"
         },
+        {
+            "name": "Zee Punjab Haryana Himachal Pradesh",
+            "logo": "https://akamaividz2.zee5.com/image/upload/w_1170,h_658,c_scale/resources/0-9-zeepunjabharyanahima/list/zeepunjabharyana1170x658withlogo44ed4e5137c346289eea189dbe9e50ab.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeepunjabharyanahima"
+        },
+        {
+            "name": "Zee Business",
+            "logo": "https://pimwp.s3-accelerate.amazonaws.com/2023/02/zeebusinessanilsinghvi.jpeg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeebusiness"
+        },
+        {
+            "name": "Zee 24 Kalak",
+            "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/Zee_24_Kalak.png",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zee24kalak"
+        },
+        {
+            "name": "Zee 24 Taas",
+            "logo": "https://pbs.twimg.com/profile_images/919586362407317533/ZkcQekIf_400x400.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zee24taas"
+        },
+        {
+            "name": "WION",
+            "logo": "https://www.medianews4u.com/wp-content/uploads/2023/03/WION-to-launch-on-UKs-DTT-platform-Freeview-on-22nd-March.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-wion"
+        },
+        {
+            "name": "Zee Bharat",
+            "logo": "https://jiotvimages.cdn.jio.com/dare_images/shows/700/-/2024-12-24/241224652011.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeehindustan"
+        },
+        {
+            "name": "Zee Bihar Jharkhand",
+            "logo": "https://akamaividz2.zee5.com/image/upload/w_1170,h_658,c_scale/resources/0-9-zeebiharjharkhand/list/zeebiharjharkand1170x658withlogo0fd8020b929e4301ae60d9d2e2cd100a.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeebiharjharkhand"
+        },
+        {
+            "name": "Zee 24 Ghanta",
+            "logo": "https://www.adgully.com/img/800/202302/zee-24-ghanta.png.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-24ghantatv"
+        },
+        {
+            "name": "Zee Delhi NCR Haryana",
+            "logo": "https://jiotvimages.cdn.jio.com/dare_images/shows/700/-/2025-02-05/250205724006.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeekalinganews"
+        },
     ]
 }
