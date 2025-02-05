@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zee 5 Channel Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-container {
+            width: 96vw; /* 96% of the viewport width */
+            max-width: 1200px; /* Maximum width */
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            background-color: #333;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .channel-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #99ff00;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Aspect ratio 16:9 for iframe */
+        .iframe-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 ratio (9/16 = 0.5625) */
+            width: 100%;
+            height: 0;
+        }
+
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 599px) {
+            .channel-name {
+                font-size: 20px;
+            }
+
+            .player-container {
+                width: 90vw; /* For small screens */
+            }
+        }
+
+        @media (max-width: 899px) {
+            .channel-name {
+                font-size: 22px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .channel-name {
+                font-size: 24px;
+            }
+        }
+        
+                        /* Telegram Button Container */
+        .telegram-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Telegram Button Styling */
+        .tg-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #0088cc; /* Telegram blue */
+            border: none;
+            border-radius: 50px; /* 50% rounded corners */
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 136, 204, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .tg-button:hover {
+            background-color: #0077b5; /* Slightly darker blue on hover */
+            box-shadow: 0 6px 12px rgba(0, 136, 204, 0.6);
+            transform: translateY(-2px); /* Lift button slightly on hover */
+        }
+
+        /* Telegram Logo in Button */
+        .tg-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+                
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background-color: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+    }
+
+    .popup-content h2 {
+      margin: 0 0 10px;
+      color: #99ff00;
+    }
+
+    .popup-content p {
+      margin: 0 0 20px;
+    }
+
+    .popup-content button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .popup-content .join-btn {
+      background-color: #69A70C;
+      color: white;
+    }
+
+    .popup-content .close-btn {
+      background-color: #555;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+<br>
+<div class="channel-name" id="channel-name">Loading Channel...</div>
+
+<div class="player-container">
+    <div class="iframe-container">
+        <iframe id="player-frame" src="" title="Zee 5 Channel Player" allow="encrypted-media" sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation" allowfullscreen="true"></iframe>
+    </div>
+</div>
+
+<script>
+    // Fallback for the missing channel data
+    const fallbackName = "Zee 5 Channel";
+
+    // Fetch the JSON data
+    fetch('https://binge-play.vercel.app/assets/zee5.json')
+        .then(response => response.json())
+        .then(data => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const channelId = urlParams.get('id'); // Get the 'id' parameter from the URL
+            
+            const channel = data.channels.find(ch => ch.id === channelId);
+
+            if (channel) {
+                // Update the page with the corresponding channel name and iframe
+                document.getElementById('channel-name').textContent = channel.name;
+                document.getElementById('player-frame').src = `https://its-ferdos-alom.top/Zee5/play.php?cid=${channelId}`;
+            } else {
+                // Fallback if the channel id is not found
+                document.getElementById('channel-name').textContent = fallbackName;
+                document.getElementById('player-frame').src = "";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching channel data:', error);
+            document.getElementById('channel-name').textContent = "Error loading channel data";
+            document.getElementById('player-frame').src = "";
+        });
+        
+         // Close popup function
+ function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none';
+  }
+</script>
+    <div class="telegram-container">
+        <a class="tg-button" href="https://t.me/axtream_bingewav" target="_blank">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo">
+            Join Telegram
+        </a>
+    </div>
+  <div id="popup">
+    <div class="popup-content">
+      <h2>Support Us!</h2>
+      <p>Join our Telegram channel @axtream_bingewav for more updates.</p>
+      <button class="join-btn" onclick="window.open('https://t.me/axtream_bingewav', '_blank')">Join Now</button>
+      <button class="close-btn" onclick="closePopup()">Already Joined</button>
+    </div>
+  </div>
+  
+
+</body>
+</html>
