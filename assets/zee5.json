@@ -1,0 +1,16 @@
+{
+    "name": "Zee 5 live channels Data in Json",
+    "telegram": "https://t.me/axtream_bingewav",
+    "channels": [
+        {
+            "name": "Aaj Tak",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Aaj_tak_logo.png",
+            "id": "0-9-aajtak"
+        },
+       {
+            "name": "Zee News",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Zee_news.svg/220px-Zee_news.svg.png",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeenews"
+        },
+    ]
+}
