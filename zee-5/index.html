@@ -1,1 +1,226 @@
-Hlo...........
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zee 5 Live Channels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-bottom: 5px solid #99ff00;
+        }
+
+        .header img {
+            max-width: 20%; /* Image size set to 60% of the width */
+            height: auto;
+        }
+
+        .section-title {
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #99ff00;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px 10px; /* Reduced left and right padding */
+        }
+
+        .tile {
+            width: 220px;
+            margin: 15px;
+            border-radius: 15px;
+            background-color: #333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #444;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: center;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .image-container {
+            width: 100%;
+            padding-top: 100%; /* Makes the container 1:1 */
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures image fits inside the container */
+            border-radius: 15px 15px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .tile h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Media queries for different devices */
+        @media (max-width: 599px) {
+            .tile {
+                width: 45%; /* 2 tiles per row on mobile */
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 899px) {
+            .tile {
+                width: 30%; /* 3 tiles per row on tablets */
+            }
+        }
+
+        @media (min-width: 900px) and (max-width: 1199px) {
+            .tile {
+                width: 22%; /* 4 tiles per row on laptops */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .tile {
+                width: 16%; /* 6 tiles per row on TVs */
+            }
+        }
+        
+                /* Telegram Button Container */
+        .telegram-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Telegram Button Styling */
+        .tg-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #0088cc; /* Telegram blue */
+            border: none;
+            border-radius: 50px; /* 50% rounded corners */
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 136, 204, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .tg-button:hover {
+            background-color: #0077b5; /* Slightly darker blue on hover */
+            box-shadow: 0 6px 12px rgba(0, 136, 204, 0.6);
+            transform: translateY(-2px); /* Lift button slightly on hover */
+        }
+
+        /* Telegram Logo in Button */
+        .tg-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<div class="header">
+    <img src="https://madeinindia.net.au/wp-content/uploads/2022/08/zee5.png" alt="Zee 5 Live Channels Header">
+</div>
+
+    <div class="telegram-container">
+        <a class="tg-button" href="https://t.me/axtream_bingewav" target="_blank">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo">
+            Join Telegram
+        </a>
+    </div>
+    
+<div class="section-title">Zee 5 Live Channels</div>
+<div class="container" id="channels-container">
+    <!-- Channel tiles will be dynamically generated here -->
+</div>
+
+
+<script>
+    // Fallback image URL for missing logos
+    const fallbackLogo = "https://binge-play.vercel.app/binge-play.svg";
+
+    // Fetch the JSON data
+    fetch('https://binge-play.vercel.app/assets/zee5.json')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('channels-container');
+            const channels = data.channels;
+
+            channels.forEach(channel => {
+                // Create a new channel tile
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.onclick = () => {
+                    // Redirect to the channel player page with the specific channel id
+                    window.location.href = `https://binge-play.vercel.app/zee-5/player.html?id=${channel.id}`;
+                };
+
+                // Create the logo container
+                const imageContainer = document.createElement('div');
+                imageContainer.classList.add('image-container');
+                
+                // Create the logo image element
+                const logo = document.createElement('img');
+                logo.src = channel.logo || fallbackLogo;
+                logo.onerror = () => {
+                    logo.src = fallbackLogo; // Use fallback image if the logo fails to load
+                };
+                logo.alt = channel.name;
+
+                // Append the logo to the image container
+                imageContainer.appendChild(logo);
+
+                // Create the channel name element
+                const name = document.createElement('h3');
+                name.textContent = channel.name;
+
+                // Append the image container and channel name to the tile
+                tile.appendChild(imageContainer);
+                tile.appendChild(name);
+
+                // Append the tile to the container
+                container.appendChild(tile);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching channel data:', error);
+        });
+</script>
+
+</body>
+</html>
