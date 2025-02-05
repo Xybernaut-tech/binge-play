@@ -7,7 +7,7 @@
             "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Aaj_tak_logo.png",
             "id": "0-9-aajtak"
         },
-       {
+        {
             "name": "Zee News",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Zee_news.svg/220px-Zee_news.svg.png",
             "id": "0-9-zeenews"
@@ -71,7 +71,7 @@
             "name": "Zee Delhi NCR Haryana",
             "logo": "https://i.ibb.co/GfCzH064/Zee-Delhi-NCR-black.png",
             "id": "0-9-zeekalinganews"
-        }
+        },
         {
             "name": "Zee Rajasthan News",
             "logo": "https://i.ibb.co/TxFkmGrJ/image-2025-02-05-231843961.png",
@@ -92,7 +92,7 @@
             "logo": "https://i.ibb.co/605mBDKk/image-2025-02-05-232344617-removebg-preview.png",
             "id": "0-9-zing"
         },
-         {
+        {
             "name": "Zee TV HD",
             "logo": "https://i.ibb.co/QFyvKRVV/image-2025-02-05-232524517.png",
             "id": "0-9-zeetvhd"
@@ -132,12 +132,12 @@
             "logo": "https://i.ibb.co/WWSYqHwq/image-2025-02-05-233423488.png",
             "id": "0-9-zeetelugu"
         },
-         {
+        {
             "name": "Zee Kannada HD",
             "logo": "https://i.ibb.co/rf4VJsnh/image-2025-02-05-233520288.png",
             "id": "0-9-zeekannada"
         },
-         {
+        {
             "name": "Zee Keralam HD",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Zee_Keralam.png",
             "id": "0-9-129"
@@ -152,7 +152,7 @@
             "logo": "https://i.ibb.co/7tdqCBst/image-2025-02-05-233822898.png",
             "id": "0-9-zeeanmol"
         },
-         {
+        {
             "name": "Zee Cinema HD",
             "logo": "https://i.ibb.co/20WpDCg8/image-2025-02-05-233916725.png",
             "id": "0-9-zeecinemahd"
@@ -177,7 +177,7 @@
             "logo": "https://i.ibb.co/1GrfFzkS/image-2025-02-05-234321443.png",
             "id": "0-9-zeebanglacinema"
         },
-         {
+        {
             "name": "Zee Punjabi",
             "logo": "https://upload.wikimedia.org/wikipedia/en/8/89/Zee_Punjabi.png",
             "id": "0-9-215"
