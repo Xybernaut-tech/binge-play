@@ -11,6 +11,21 @@
             "name": "Zee News",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Zee_news.svg/220px-Zee_news.svg.png",
             "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-zeenews"
+        }
+        {
+            "name": "India Today",
+            "logo": "https://akm-img-a-in.tosshub.com/sites/indiatoday/resources/img/livetv-it-default.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-indiatoday"
+        },
+        {
+            "name": "Good News Today",
+            "logo": "https://akm-img-a-in.tosshub.com/sites/indiatoday/resources/img/livetv-gnt-default.jpg",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-255"
+        },
+        {
+            "name": "&Prive HD",
+            "logo": "https://tvtick.com/img/channel/692.png",
+            "id": "https://its-ferdos-alom.top/Zee5/play.php?cid=0-9-9z5543514"
         },
     ]
 }
