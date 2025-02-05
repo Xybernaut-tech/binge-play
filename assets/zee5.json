@@ -11,7 +11,7 @@
             "name": "Zee News",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Zee_news.svg/220px-Zee_news.svg.png",
             "id": "0-9-zeenews"
-        }
+        },
         {
             "name": "India Today",
             "logo": "https://akm-img-a-in.tosshub.com/sites/indiatoday/resources/img/livetv-it-default.jpg",
@@ -71,6 +71,6 @@
             "name": "Zee Delhi NCR Haryana",
             "logo": "https://jiotvimages.cdn.jio.com/dare_images/shows/700/-/2025-02-05/250205724006.jpg",
             "id": "0-9-zeekalinganews"
-        },
+        }
     ]
 }
