@@ -9,7 +9,7 @@
 
     // Check if 'id' exists in the URL
     if (id) {
-      const m3u8Url = `https://unknown-playlists-opplex-tv.vercel.app/live-oplx.m3u8?id=${id}`;
+      const m3u8Url = `https://binge-proxy.vercel.app/cors?url=https://fifabd.site/OPLLXX/play.m3u8?id=${id}|Referer=RANAPK`;
 
       // JW Player configuration
       jwplayer("player-container").setup({
