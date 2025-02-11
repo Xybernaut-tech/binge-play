@@ -54,7 +54,7 @@
         "cricket-nation.live",
         "cricketgroup.netlify.app",
         "crxcshivam.live",
-        "sportifylive.netlify.app"
+        "sp-live.netlify.app"
     ];
 
     try {
