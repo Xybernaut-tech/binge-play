@@ -178,7 +178,7 @@
         <iframe id="player-frame" src="" title="Zee 5 Channel Player" allow="encrypted-media" sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation" allowfullscreen="true"></iframe>
     </div>
 </div>
-
+<h2 style="color: white;">Please wait 10 seconds for the channel to load</h2>
 <script>
     // Fallback for the missing channel data
     const fallbackName = "Zee 5 Channel";
@@ -195,7 +195,7 @@
             if (channel) {
                 // Update the page with the corresponding channel name and iframe
                 document.getElementById('channel-name').textContent = channel.name;
-                document.getElementById('player-frame').src = `https://its-ferdos-alom.top/Zee5/play.php?cid=${channelId}`;
+                document.getElementById('player-frame').src = `https://amit-1.allinonereborn.in/zee5/play.php?id=${channelId}`;
             } else {
                 // Fallback if the channel id is not found
                 document.getElementById('channel-name').textContent = fallbackName;
