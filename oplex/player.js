@@ -54,6 +54,7 @@
         "cricket-nation.live",
         "cricketgroup.netlify.app",
         "crxcshivam.live",
+        "binge-play.vercel.app",
         "sp-live.netlify.app"
     ];
 
