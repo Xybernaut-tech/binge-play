@@ -55,7 +55,7 @@
         "cricketgroup.netlify.app",
         "crxcshivam.live",
         "binge-play.vercel.app",
-        "sp-live.netlify.app"
+        "sportifylive18.netlify.app"
     ];
 
     try {
