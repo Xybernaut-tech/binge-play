@@ -7,14 +7,18 @@
     <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
     <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: black;
-        }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden; /* Prevent scrollbars */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000; /* Set background color for better appearance */
+      color: #fff; /* Set text color for visibility */
+    }
         #player {
             width: 100vw;
             height: 100vh;
