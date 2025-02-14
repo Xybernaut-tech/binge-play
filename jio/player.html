@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSYZ Player</title>
+    <title>JW Player - Live Stream</title>
     <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
     <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden; /* Prevent scrollbars */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000; /* Set background color for better appearance */
-      color: #fff; /* Set text color for visibility */
-    }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevent scrollbars */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000; /* Set background color for better appearance */
+            color: #fff; /* Set text color for visibility */
+        }
         #player {
             width: 100vw;
             height: 100vh;
@@ -29,6 +28,24 @@
 </head>
 <body>
     <div id="player"></div>
-    <script src="./player.js"></script>
+    <script>
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        const ref = getQueryParam('ref');
+        if (ref) {
+            jwplayer("player").setup({
+                file: `https://binge-top.vercel.app/cors?url=https://live.drmlive-02.workers.dev/${ref}`,
+                type: "hls",
+                width: "100%",
+                aspectratio: "16:9",
+                autostart: true,
+            });
+        } else {
+            document.body.innerHTML = '<h2 style="color: white; text-align: center;">Missing ref parameter</h2>';
+        }
+    </script>
 </body>
 </html>
