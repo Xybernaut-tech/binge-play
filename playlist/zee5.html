@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f06, #4a90e2);
+            color: white;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 1s ease-out;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #playlist-url {
+            font-size: 1.2em;
+            margin: 15px 0;
+            word-wrap: break-word;
+        }
+
+        button {
+            margin: 15px 0;
+            padding: 12px 24px;
+            font-size: 1em;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #f0f0f0;
+            text-align: left;
+        }
+
+        .instructions ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+            list-style-type: disc;
+        }
+
+        .instructions p {
+            margin: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="playlist-url">https://binge-play.vercel.app/playlist/zee5.m3u</div>
+        <button onclick="copyToClipboard()">Copy Link</button>
+        <div class="instructions">
+            <ul>
+                <li>Copy the m3u playlist URL.</li>
+                <li>Paste and play this link in NS Player, VLC media player, or any other IPTV player.</li>
+                <li><strong>Note:</strong> All the channels in this playlist are 3rd party, and we host none of them. This playlist is just a collection of those channels. Credits go to their real owners.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const url = document.getElementById('playlist-url').innerText;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
