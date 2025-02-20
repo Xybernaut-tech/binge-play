@@ -53,7 +53,7 @@
         "crxcshivam.live",
         "binge-play.vercel.app",
         "champions-trophy.vercel.app",
-        "sportifylive18.netlify.app"
+        "sportifylive18.pages.dev"
     ];
 
     try {
