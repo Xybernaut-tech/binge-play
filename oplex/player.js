@@ -46,7 +46,7 @@
 (function() {
     const allowedDomains = [
         "bingewav-sports.netlify.app",
-        "cricketsamay365.netlify.app",
+        "cricstreamline365.netlify.app",
         "editverseog.netlify.app",
         "cricket-nation.live",
         "cricketgroup.netlify.app",
