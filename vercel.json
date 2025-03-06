@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "/playlist/fancode.php",
+      "src": "/playlist/fancode.m3u.php",
       "use": "vercel-php"
     }
   ]
