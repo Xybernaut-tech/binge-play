@@ -1,6 +1,6 @@
 <?php
 // Set headers to serve as an M3U playlist
-header("Content-Type: audio/x-mpegurl");
+header("Content-Type: application/x-mpegURL");
 header("Content-Disposition: inline; filename=fancode.m3u");
 
 // URL of the source M3U file
