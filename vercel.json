@@ -1,7 +1,9 @@
 {
-  "functions": {
-    "playlist/fancode.php": {
-      "runtime": "vercel-php@latest"
+  "version": 2,
+  "builds": [
+    {
+      "src": "/playlist/fancode.php",
+      "use": "vercel-php"
     }
-  }
+  ]
 }
