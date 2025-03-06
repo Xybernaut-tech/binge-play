@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "playlist/fancode.php": {
+      "runtime": "vercel-php@latest"
+    }
+  }
+}
