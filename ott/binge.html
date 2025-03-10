@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JW Player - Channel Stream</title>
+  <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+  <style>
+    html, body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    .jwplayer {
+      position: absolute !important;
+    }
+    .jwplayer.jw-flag-aspect-mode {
+      min-height: 100%;
+      max-height: 100%;
+    }
+    #jwplayer-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Notification Popup */
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(80, 80, 80, 0.8);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0;
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- JW Player Container -->
+  <div id="jwplayer-container"></div>
+
+  <!-- Notification Popup -->
+  <div id="notification" class="notification" style="display: none;"></div>
+
+  <script>
+    // Function to get the "id" parameter from the URL
+    function getChannelIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return parseInt(urlParams.get('id'), 10); // Convert to integer
+    }
+
+    // Function to show the notification
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000); // Hide after 3 seconds
+    }
+
+    // Fetch the JSON data and initialize JW Player
+    fetch('https://raw.githubusercontent.com/Odfinity/bingenix/main/pishow.json')
+      .then(response => response.json())
+      .then(data => {
+        const channelId = getChannelIdFromURL(); // Get the channel ID from the URL
+        if (channelId && channelId > 0 && channelId <= data.length) {
+          const channel = data[channelId - 1]; // Get the channel object (index starts from 0)
+          const streamUrl = channel.url; // Get the .m3u8 URL
+
+          // Show notification
+          showNotification(`Playing ${channel.name}`);
+
+          // Initialize JW Player
+          const player = jwplayer('jwplayer-container').setup({
+            file: streamUrl, // .m3u8 URL
+            autostart: true, // Auto-play the stream
+            width: '100%',
+            height: '100%',
+            stretching: 'uniform', // Maintain aspect ratio
+          });
+
+          console.log(`Playing channel ${channelId}: ${channel.name}`);
+        } else {
+          console.error('Invalid channel ID or channel not found.');
+          alert('Invalid channel ID or channel not found.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching the channel data:', error);
+        alert('Failed to load channel data. Please try again later.');
+      });
+  </script>
+<script type='text/javascript' src='//pl26076780.effectiveratecpm.com/d7/6d/b1/d76db1655b7b3749e7b9ebc34b7f43e4.js'></script>
+</body>
+</html>
