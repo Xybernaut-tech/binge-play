@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTT Play</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Disable scrolling initially */
+    }
+
+    /* Welcome Screen */
+    .welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeOut 1s ease-in-out 3s forwards;
+    }
+
+    .welcome-screen img {
+      max-width: 100%;
+      max-height: 100%;
+      animation: zoomIn 2s ease-in-out, float 3s ease-in-out infinite;
+    }
+
+    /* Keyframes for Animations */
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(90deg, #1c1c1c, #0a0a0a);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #e50914; /* Netflix-style red */
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin: 20px auto;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      width: 60%;
+      max-width: 400px;
+      padding: 10px;
+      border: none;
+      border-radius: 25px;
+      background-color: #1c1c1c;
+      color: #ffffff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-bar input::placeholder {
+      color: #888;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background-color: #e50914;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .search-bar button:hover {
+      background-color: #ff1a1a;
+    }
+
+    /* Channel Grid */
+    .channel-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+
+    /* Channel Tile */
+    .channel-tile {
+      background-color: #1c1c1c;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 180px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .channel-tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .channel-tile img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .channel-tile h3 {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .channel-tile {
+        width: 120px;
+      }
+
+      .channel-tile img {
+        height: 100px;
+      }
+
+      .channel-tile h3 {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div class="welcome-screen">
+    <img src="https://i.ibb.co/WPcCtLw/Screenshot-2025-01-13-130250.png" alt="Welcome Screen">
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>OTT Play</h1>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search for channels..." id="search-input">
+    <button id="search-btn">Search</button>
+  </div>
+
+  <!-- Channel Grid -->
+  <div class="channel-container" id="channel-container">
+    <!-- Channels will be dynamically inserted here -->
+  </div>
+
+  <script>
+    // Enable scrolling after the welcome screen disappears
+    const body = document.body;
+    const welcomeScreen = document.querySelector('.welcome-screen');
+
+    // Listen for the end of the fadeOut animation
+    welcomeScreen.addEventListener('animationend', () => {
+      body.style.overflow = 'auto'; // Enable scrolling
+    });
+
+    // Fetch the JSON data from the provided URL
+    fetch('https://raw.githubusercontent.com/Odfinity/bingenix/main/pishow.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('channel-container');
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+
+        // Function to render channels
+        const renderChannels = (channels) => {
+          container.innerHTML = ''; // Clear existing content
+          channels.forEach((channel, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'channel-tile';
+
+            // Add click event to redirect to /binge?id=<channel_id>
+            tile.addEventListener('click', () => {
+              const channelId = index + 1; // IDs start from 1
+              window.location.href = `./binge?id=${channelId}`;
+            });
+
+            const logo = document.createElement('img');
+            logo.src = channel.logo;
+            logo.alt = channel.name;
+
+            const name = document.createElement('h3');
+            name.textContent = channel.name;
+
+            tile.appendChild(logo);
+            tile.appendChild(name);
+            container.appendChild(tile);
+          });
+        };
+
+        // Initial render
+        renderChannels(data);
+
+        // Add search functionality
+        const searchHandler = () => {
+          const query = searchInput.value.toLowerCase();
+          const filteredChannels = data.filter(channel =>
+            channel.name.toLowerCase().includes(query)
+          );
+          renderChannels(filteredChannels);
+        };
+
+        searchInput.addEventListener('input', searchHandler);
+        searchBtn.addEventListener('click', searchHandler);
+      })
+      .catch(error => {
+        console.error('Error fetching the channel data:', error);
+      });
+  </script>
+</body>
+</html>
