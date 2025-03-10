@@ -7,23 +7,26 @@
   <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
   <style>
     html, body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: black;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
     }
     .jwplayer {
       position: absolute !important;
     }
+    .jwplayer.jw-flag-aspect-mode {
+      min-height: 100%;
+      max-height: 100%;
+    }
     #jwplayer-container {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 800px;
-      aspect-ratio: 16 / 9;
-      margin: 10px 0;
+      height: 100%;
     }
 
     /* Notification Popup */
@@ -56,30 +59,11 @@
         opacity: 0;
       }
     }
-	  .ad-container {
-            margin: 10px 0;
-            text-align: center;
-        }
   </style>
-<script async="async" data-cfasync="false" src="//pl26076834.effectiveratecpm.com/d2c27158f2c572c346401a713a0adab8/invoke.js"></script>
-<div id="container-d2c27158f2c572c346401a713a0adab8"></div>
-  <script type='text/javascript' src='//pl26076663.effectiveratecpm.com/a9/48/8c/a9488cfcf7ad6c08615a0813a7814da4.js'></script>
 </head>
 <body>
+	<script type='text/javascript' src='//pl26076663.effectiveratecpm.com/a9/48/8c/a9488cfcf7ad6c08615a0813a7814da4.js'></script>
   <!-- JW Player Container -->
-<div class="ad-container">
-<script type="text/javascript">
-	atOptions = {
-		'key' : '61748e73b6c7d9f3974f42d96b4bd26d',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/61748e73b6c7d9f3974f42d96b4bd26d/invoke.js"></script>
-</div>
-	
   <div id="jwplayer-container"></div>
 
   <!-- Notification Popup -->
@@ -134,6 +118,5 @@
         alert('Failed to load channel data. Please try again later.');
       });
   </script>
-<script type='text/javascript' src='//pl26076780.effectiveratecpm.com/d7/6d/b1/d76db1655b7b3749e7b9ebc34b7f43e4.js'></script>
 </body>
 </html>
