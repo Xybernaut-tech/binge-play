@@ -177,7 +177,8 @@
       }
     }
   </style>
-    <script type='text/javascript' src='//pl26076663.effectiveratecpm.com/a9/48/8c/a9488cfcf7ad6c08615a0813a7814da4.js'></script>
+  <script type='text/javascript' src='//pl26076663.effectiveratecpm.com/a9/48/8c/a9488cfcf7ad6c08615a0813a7814da4.js'></script>
+
 </head>
 <body>
   <!-- Welcome Screen -->
@@ -187,7 +188,7 @@
 
   <!-- Header -->
   <div class="header">
-    <h1>OTT Play</h1>
+    <h1>OTT Play Live TV Channels</h1>
   </div>
 
   <!-- Search Bar -->
@@ -222,14 +223,17 @@
         // Function to render channels
         const renderChannels = (channels) => {
           container.innerHTML = ''; // Clear existing content
-          channels.forEach((channel, index) => {
+          channels.forEach(channel => {
             const tile = document.createElement('div');
             tile.className = 'channel-tile';
 
+            // Add the original index as a data attribute
+            tile.dataset.id = channel.originalIndex + 1; // IDs start from 1
+
             // Add click event to redirect to /binge?id=<channel_id>
             tile.addEventListener('click', () => {
-              const channelId = index + 1; // IDs start from 1
-              window.location.href = `ott/binge.html?id=${channelId}`;
+              const channelId = tile.dataset.id; // Get the ID from the data attribute
+              window.location.href = `/binge?id=${channelId}`;
             });
 
             const logo = document.createElement('img');
@@ -244,6 +248,11 @@
             container.appendChild(tile);
           });
         };
+
+        // Add the original index to each channel in the data
+        data.forEach((channel, index) => {
+          channel.originalIndex = index;
+        });
 
         // Initial render
         renderChannels(data);
