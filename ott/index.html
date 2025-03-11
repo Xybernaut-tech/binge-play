@@ -233,7 +233,7 @@
             // Add click event to redirect to /binge?id=<channel_id>
             tile.addEventListener('click', () => {
               const channelId = tile.dataset.id; // Get the ID from the data attribute
-              window.location.href = `/binge?id=${channelId}`;
+              window.location.href = `ott/binge?id=${channelId}`;
             });
 
             const logo = document.createElement('img');
