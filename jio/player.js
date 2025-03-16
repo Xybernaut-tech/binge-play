@@ -6,7 +6,7 @@
         const ref = getQueryParam('ref');
         if (ref) {
             jwplayer("player").setup({
-                file: `https://binge-top.vercel.app/cors?url=https://live.drmlive-02.workers.dev/${ref}`,
+                file: `https://cold-math-92bd.amz-190.workers.dev/${ref}`,
                 type: "hls",
                 width: "100%",
                 aspectratio: "16:9",
