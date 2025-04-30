@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Channels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0a0a12;
+            --tile-bg: #121220;
+            --text-color: #e6e6ff;
+            --highlight-color: #4d79ff;
+            --accent-blue: #3366ff;
+            --search-bg: #1a1a2e;
+            --category-bg: #151525;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            padding: 15px clamp(10px, 3vw, 20px);
+            background-color: rgba(10, 10, 18, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(77, 121, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            min-width: 120px;
+        }
+        
+        .header img {
+            height: 35px;
+            width: auto;
+            max-width: 100%;
+        }
+        
+        .search-container {
+            flex-grow: 1;
+            max-width: min(400px, 100%);
+            min-width: 200px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: none;
+            background-color: var(--search-bg);
+            color: var(--text-color);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            border: 1px solid rgba(77, 121, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--highlight-color);
+            box-shadow: 0 0 0 2px rgba(77, 121, 255, 0.2);
+        }
+        
+        .search-bar::placeholder {
+            color: #6a6a8a;
+        }
+        
+        .main-content {
+            flex: 1;
+            width: 100%;
+            padding: 0 max(10px, calc((100% - 1200px) / 2));
+            overflow-y: auto;
+        }
+        
+        .category-row {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        
+        .category-header {
+            padding: 12px 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .category-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .scroll-arrows {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .scroll-arrow {
+            background-color: rgba(51, 102, 255, 0.2);
+            border: none;
+            color: var(--highlight-color);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .scroll-arrow:hover {
+            background-color: rgba(51, 102, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .scroll-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .channels-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding: 10px 5px 15px 5px;
+            scrollbar-width: none;
+        }
+        
+        .channels-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .channel-tile {
+            background-color: var(--tile-bg);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            flex: 0 0 auto;
+            width: 160px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(51, 102, 255, 0.1);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .channel-tile:hover {
+            transform: translateY(-5px);
+            margin-top: 0;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 20px rgba(51, 102, 255, 0.15);
+            border-color: var(--highlight-color);
+            background-color: #1a1a3a;
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 2;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+        
+        .favorite-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .favorite-btn.favorited {
+            color: var(--highlight-color);
+            opacity: 1;
+        }
+        
+        .channel-logo-container {
+            height: 0;
+            padding-bottom: 56.25%;
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .channel-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .channel-name {
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 0;
+            padding: 12px 5px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .loading, .error {
+            text-align: center;
+            padding: 50px;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(10, 10, 18, 0.9);
+            border-top: 1px solid rgba(77, 121, 255, 0.1);
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            color: #8a8aaf;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .channel-tile {
+                width: 140px;
+            }
+            
+            .category-name {
+                font-size: 1.1rem;
+            }
+            
+            .main-content {
+                padding: 0 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .channel-tile {
+                width: 120px;
+            }
+            
+            .category-name {
+                font-size: 1rem;
+            }
+            
+            .scroll-arrows {
+                gap: 5px;
+            }
+            
+            .scroll-arrow {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+            
+            .channels-scroll {
+                gap: 10px;
+            }
+            
+            .favorite-btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="https://i.ibb.co/JkfNTs8/output-onlinepngtools.png" alt="BingePlay Logo">
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search channels...">
+        </div>
+    </div>
+    
+    <main class="main-content">
+        <div id="channels-container">
+            <!-- Channels will be loaded here by category -->
+        </div>
+    </main>
+
+    <div class="footer">
+        © 2025 BingePlay. All rights reserved.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('channels-container');
+            const searchBar = document.querySelector('.search-bar');
+            let allChannels = [];
+            let categorizedChannels = {};
+            let favorites = JSON.parse(localStorage.getItem('favoriteChannels')) || [];
+            
+            // Show loading state
+            container.innerHTML = '<div class="loading">Loading channels...</div>';
+            
+            // Fetch channel data
+            fetch('https://binge-api.vercel.app/api/voot.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(channels => {
+                    allChannels = channels;
+                    updateCategorizedChannels();
+                    renderChannelsByCategory();
+                    
+                    // Add search functionality
+                    searchBar.addEventListener('input', function() {
+                        const searchTerm = this.value.toLowerCase();
+                        const filteredChannels = allChannels.filter(channel => 
+                            channel.name.toLowerCase().includes(searchTerm) || 
+                            (channel.catagory && channel.catagory.toLowerCase().includes(searchTerm))
+                        );
+                        updateCategorizedChannels(filteredChannels);
+                        renderChannelsByCategory();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching channels:', error);
+                    container.innerHTML = '<div class="error">Failed to load channels. Please try again later.</div>';
+                });
+                
+            function updateCategorizedChannels(channels = allChannels) {
+                categorizedChannels = {};
+                
+                // Add Favorites category first
+                if (favorites.length > 0) {
+                    categorizedChannels['Favorites'] = allChannels.filter(channel => 
+                        favorites.includes(channel.id)
+                    );
+                }
+                
+                // Categorize remaining channels
+                channels.forEach(channel => {
+                    // Skip if already in favorites
+                    if (favorites.includes(channel.id)) return;
+                    
+                    if (channel.catagory) {
+                        const categories = channel.catagory.split(',').map(cat => cat.trim());
+                        categories.forEach(category => {
+                            if (!categorizedChannels[category]) {
+                                categorizedChannels[category] = [];
+                            }
+                            categorizedChannels[category].push(channel);
+                        });
+                    } else {
+                        // If no category, add to "Other"
+                        if (!categorizedChannels['Other']) {
+                            categorizedChannels['Other'] = [];
+                        }
+                        categorizedChannels['Other'].push(channel);
+                    }
+                });
+            }
+            
+            function toggleFavorite(channelId, event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                const index = favorites.indexOf(channelId);
+                if (index === -1) {
+                    favorites.push(channelId);
+                } else {
+                    favorites.splice(index, 1);
+                }
+                localStorage.setItem('favoriteChannels', JSON.stringify(favorites));
+                updateCategorizedChannels();
+                renderChannelsByCategory();
+            }
+            
+            function renderChannelsByCategory() {
+                // Clear container
+                container.innerHTML = '';
+                
+                if (Object.keys(categorizedChannels).length === 0) {
+                    container.innerHTML = '<div class="error">No channels found</div>';
+                    return;
+                }
+                
+                // Sort categories alphabetically (except Favorites which stays first)
+                const categories = Object.keys(categorizedChannels);
+                const favoritesIndex = categories.indexOf('Favorites');
+                let sortedCategories;
+                
+                if (favoritesIndex !== -1) {
+                    sortedCategories = [
+                        'Favorites',
+                        ...categories.filter(cat => cat !== 'Favorites').sort()
+                    ];
+                } else {
+                    sortedCategories = categories.sort();
+                }
+                
+                // Create category rows
+                sortedCategories.forEach(category => {
+                    if (categorizedChannels[category].length === 0) return;
+                    
+                    const categoryRow = document.createElement('div');
+                    categoryRow.className = 'category-row';
+                    
+                    const categoryHeader = document.createElement('div');
+                    categoryHeader.className = 'category-header';
+                    
+                    const categoryName = document.createElement('h2');
+                    categoryName.className = 'category-name';
+                    categoryName.textContent = category;
+                    
+                    const scrollArrows = document.createElement('div');
+                    scrollArrows.className = 'scroll-arrows';
+                    
+                    const leftArrow = document.createElement('button');
+                    leftArrow.className = 'scroll-arrow';
+                    leftArrow.innerHTML = '&larr;';
+                    leftArrow.addEventListener('click', () => {
+                        scrollContainer.scrollBy({left: -300, behavior: 'smooth'});
+                    });
+                    
+                    const rightArrow = document.createElement('button');
+                    rightArrow.className = 'scroll-arrow';
+                    rightArrow.innerHTML = '&rarr;';
+                    rightArrow.addEventListener('click', () => {
+                        scrollContainer.scrollBy({left: 300, behavior: 'smooth'});
+                    });
+                    
+                    scrollArrows.appendChild(leftArrow);
+                    scrollArrows.appendChild(rightArrow);
+                    
+                    categoryHeader.appendChild(categoryName);
+                    categoryHeader.appendChild(scrollArrows);
+                    
+                    const scrollContainer = document.createElement('div');
+                    scrollContainer.className = 'channels-scroll';
+                    
+                    // Create channel tiles for this category
+                    categorizedChannels[category].forEach(channel => {
+                        const tile = document.createElement('a');
+                        tile.className = 'channel-tile';
+                        tile.href = `https://momixtvvootweb.pages.dev/player?id=${channel.id}`;
+                        
+                        const favoriteBtn = document.createElement('button');
+                        favoriteBtn.className = 'favorite-btn';
+                        favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+                        if (favorites.includes(channel.id)) {
+                            favoriteBtn.classList.add('favorited');
+                            favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                        }
+                        favoriteBtn.addEventListener('click', (e) => toggleFavorite(channel.id, e));
+                        
+                        const logoContainer = document.createElement('div');
+                        logoContainer.className = 'channel-logo-container';
+                        
+                        const logo = document.createElement('img');
+                        logo.className = 'channel-logo';
+                        logo.src = channel.logo;
+                        logo.alt = channel.name;
+                        logo.onerror = function() {
+                            this.src = 'https://via.placeholder.com/160x90/121220/e6e6ff?text=' + encodeURIComponent(channel.name.substring(0, 2));
+                        };
+                        
+                        const name = document.createElement('p');
+                        name.className = 'channel-name';
+                        name.textContent = channel.name;
+                        
+                        logoContainer.appendChild(logo);
+                        tile.appendChild(favoriteBtn);
+                        tile.appendChild(logoContainer);
+                        tile.appendChild(name);
+                        scrollContainer.appendChild(tile);
+                    });
+                    
+                    categoryRow.appendChild(categoryHeader);
+                    categoryRow.appendChild(scrollContainer);
+                    container.appendChild(categoryRow);
+                    
+                    // Update arrow visibility based on scroll position
+                    const updateArrows = () => {
+                        const scrollLeft = scrollContainer.scrollLeft;
+                        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                        
+                        leftArrow.disabled = scrollLeft <= 0;
+                        rightArrow.disabled = scrollLeft >= maxScroll;
+                    };
+                    
+                    scrollContainer.addEventListener('scroll', updateArrows);
+                    window.addEventListener('resize', updateArrows);
+                    updateArrows();
+                });
+            }
+        });
+    </script>
+</body>
+  </html>
