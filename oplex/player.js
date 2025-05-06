@@ -9,7 +9,7 @@
 
     // Check if 'id' exists in the URL
     if (id) {
-      const m3u8Url = `https://crick-nation.vercel.app/cors?url=https://fifabd.site/OPLLX3/play.m3u8?id=${id}|Referer=RANAPK`;
+      const m3u8Url = `https://crick-nation.vercel.app/cors?url=https://fifabd.site/OPLLX5/play.php?id=${id}`;
 
       // JW Player configuration
       jwplayer("player-container").setup({
